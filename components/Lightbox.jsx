@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { altFotke } from "@/lib/alt";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 const Kontekst = createContext(() => {});
@@ -61,7 +62,7 @@ export default function LightboxProvider({ children }) {
           <button className="lb-strelica lb-prije" aria-label="Previous" onClick={() => korak(-1)}>←</button>
           {otvoren && f && (
             <Image
-              key={f.src} src={f.src} alt="" width={f.w} height={f.h}
+              key={f.src} src={f.src} alt={altFotke(f, i)} width={f.w} height={f.h}
               sizes="100vw" quality={85} loading="eager"
               onClick={(e) => korak(e.clientX < window.innerWidth / 3 ? -1 : 1)}
             />
