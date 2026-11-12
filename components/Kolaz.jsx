@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import P from "@/lib/postavke";
 import { useLightbox } from "./Lightbox";
+import { altFotke } from "@/lib/alt";
 
 // Fotke se raspodijele u stupce podjednake visine; srednji stupac dobije više fotki pa se vrti brže.
 function rasporedi(lista, n) {
@@ -90,7 +91,7 @@ export default function Kolaz({ fotke }) {
           <button key={(kopija ? "b" : "a") + i} aria-label="Enlarge" tabIndex={kopija ? -1 : 0} aria-hidden={kopija || undefined}
             style={{ aspectRatio: `${h[i].w}/${h[i].h}` }} onClick={() => otvori(h, i)}>
             {/* prvih nekoliko fotki se učita odmah, ostale tek kad se približe ekranu (lazy loading) */}
-            <Image src={h[i].src} alt="" width={h[i].w} height={h[i].h} sizes={sizes}
+            <Image src={h[i].src} alt={kopija ? "" : altFotke(h[i])} width={h[i].w} height={h[i].h} sizes={sizes}
               loading={!kopija && i < 6 ? "eager" : "lazy"} fetchPriority={!kopija && i < 3 ? "high" : undefined} />
           </button>
         ));
