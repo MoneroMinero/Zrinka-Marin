@@ -33,6 +33,23 @@ export default function Kolaz({ fotke }) {
   const kolaz = useRef(null);
   const { h, liste } = useMemo(() => rasporedi(fotke, n), [fotke, n]);
 
+  // Fotke u traci se pomiču animacijom, a preglednik lijeno učitavanje (loading="lazy") provjerava
+  // tek kad se nešto dogodi (skrol, pomak miša), pa bi fotka znala ući u kadar prazna.
+  // Zato ih ovdje učitavamo sami: prvih 6 odmah, a ostale redom, malo po malo, čim se stranica učita.
+  const [ucitaj, setUcitaj] = useState(6);
+  useEffect(() => {
+    let t;
+    const dalje = () => setUcitaj((x) => {
+      if (x >= fotke.length) return x;
+      t = setTimeout(dalje, 250);
+      return x + 3;
+    });
+    const kreni = () => { t = setTimeout(dalje, 300); };
+    if (document.readyState === "complete") kreni();
+    else window.addEventListener("load", kreni, { once: true });
+    return () => { clearTimeout(t); window.removeEventListener("load", kreni); };
+  }, [fotke.length]);
+
   useIsoEffect(() => {
     setMirno(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     const postavi = () => setN(window.innerWidth < 700 ? 2 : 3);
@@ -89,9 +106,9 @@ export default function Kolaz({ fotke }) {
         const kartice = (kopija) => l.map((i) => (
           <button key={(kopija ? "b" : "a") + i} aria-label="Enlarge" tabIndex={kopija ? -1 : 0} aria-hidden={kopija || undefined}
             style={{ aspectRatio: `${h[i].w}/${h[i].h}` }} onClick={() => otvori(h, i)}>
-            {/* prvih nekoliko fotki se učita odmah, ostale tek kad se približe ekranu (lazy loading) */}
+            {/* prvih 6 fotki se učita odmah; ostale postupno (vidi "ucitaj" gore), prije nego što uđu u kadar */}
             <Image src={h[i].src} alt="" width={h[i].w} height={h[i].h} sizes={sizes}
-              loading={!kopija && i < 6 ? "eager" : "lazy"} fetchPriority={!kopija && i < 3 ? "high" : undefined} />
+              loading={i < ucitaj ? "eager" : "lazy"} fetchPriority={!kopija && i < 3 ? "high" : undefined} />
           </button>
         ));
         return (
