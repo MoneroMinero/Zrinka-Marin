@@ -1,7 +1,12 @@
 import P, { WHATSAPP } from "@/lib/postavke";
 import KontaktObrazac from "@/components/KontaktObrazac";
+import { meta } from "@/lib/seo";
 
-export const metadata = { title: "Contact" };
+export const metadata = meta({
+  naslov: "Contact",
+  opis: `Kontakt i upiti za fotografiranje: ${P.telefon}${P.telefon2 ? ", " + P.telefon2 : ""}, WhatsApp ili email. ${P.ime}, ${P.grad.split(",")[0]}.`,
+  put: "/contact"
+});
 const tel = (s) => "tel:" + s.replace(/\s/g, "");
 
 export default function Contact() {

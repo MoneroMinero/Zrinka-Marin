@@ -24,6 +24,27 @@ Sve fotke idu kroz `next/image`: učitavaju se tek kad se približe ekranu, a Ve
 šalje manje AVIF/WebP verzije prema veličini ekrana. Na naslovnici se prvih 6 fotki učita odmah
 (da prvi ekran ne bude prazan), sve ostale lijeno. U povećanju (lightbox) se sljedeća fotka učita unaprijed.
 
+## Google (SEO)
+
+Sve je već postavljeno: naslovi i opisi za svaku stranicu, slike za dijeljenje (Facebook/WhatsApp),
+`/sitemap.xml`, `/robots.txt`, kanonske adrese, alt tekstovi fotki i strukturirani podaci
+(Google iz njih zna da ste fotografski obrt iz Zagreba, s telefonima i uslugama).
+Opisi se mijenjaju u `lib/postavke.js` (`opis`, `opisKategorija`).
+
+**Adresa weba:** dok je `adresaWeba` u `lib/postavke.js` prazna, koristi se Vercel adresa
+(`xxx.vercel.app`). Kad dobiješ vlastitu domenu, upiši je tamo (npr. `"https://zrinkaimarin.hr"`).
+Može i kao varijabla `NEXT_PUBLIC_SITE_URL` u Vercelu (Settings → Environment Variables).
+
+**Google Search Console** (https://search.google.com/search-console):
+1. Add property → **URL prefix** → upiši adresu weba.
+2. Izaberi metodu **HTML tag**, kopiraj samo vrijednost iz `content="..."` i upiši je u
+   `googleVerifikacija` u `lib/postavke.js` → push → pričekaj objavu → **Verify**.
+3. Lijevo **Sitemaps** → upiši `sitemap.xml` → Submit.
+
+**Google Business Profile** (https://business.google.com): napravi profil "Zrinka i Marin",
+kategorija *Photographer* / *Wedding photographer*, područje usluge Zagreb i okolica (adresu možeš sakriti),
+oba telefona i adresu weba. To je najvažnije za pretrage tipa "fotograf Zagreb" na Google Mapama.
+
 ## Pokretanje na svom računalu (nije obavezno)
 
 Treba ti Node.js 20 ili noviji (https://nodejs.org).
