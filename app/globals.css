@@ -330,6 +330,14 @@ body { font-weight: 300; font-variant-numeric: lining-nums; font-feature-setting
   .podizbornik { background: none; box-shadow: none; }
   .izbornik .podizbornik a { font-size: 22px; color: var(--siva); }
 }
+/* ---------- zaglavlje: siva, podebljana slova ---------- */
+.ime { color: var(--siva); font-weight: 700; }
+.izbornik a, .izbornik button, .hamburger { color: var(--siva); font-weight: 600; }
+.izbornik a:hover, .izbornik button:hover, .izbornik .aktivno { color: var(--izbornik-aktivno); }
+@media (max-width: 860px) {
+  .izbornik a { font-weight: 700; }
+  .izbornik .podizbornik a { font-weight: 600; }
+}
 .naslov-stranice {
   font: 400 clamp(40px, 7vw, 96px)/1 var(--naslov); text-transform: none; letter-spacing: 0;
   color: var(--naglasak); text-shadow: none;
