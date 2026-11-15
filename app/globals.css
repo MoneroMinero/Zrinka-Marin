@@ -358,3 +358,8 @@ body { font-weight: 300; font-variant-numeric: lining-nums; font-feature-setting
 
 /* vidljivo samo Googleu i čitačima ekrana */
 .skriveno { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* naslovnica na mobitelu: kolaž se pokaže tek kad je složen u 2 stupca (bez skakanja fotki) */
+@media (max-width: 699px) { .kolaz:not(.spreman) { visibility: hidden; } }
+/* pravi kurziv za "Coming soon" učitava se samo na stranici Contact */
+.kontakt dd .uskoro { font-family: var(--font-cormorant-kurziv), var(--naslov); }

@@ -31,6 +31,9 @@ export default function Kolaz({ fotke }) {
   const otvori = useLightbox();
   const [n, setN] = useState(3);
   const [mirno, setMirno] = useState(false);
+  // server ne zna širinu ekrana pa uvijek složi 3 stupca; na mobitelu (2 stupca) kolaž ostaje
+  // nevidljiv dok se ne presloži, da fotke ne "skaču" pred očima (Google to mjeri kao CLS)
+  const [spreman, setSpreman] = useState(false);
   const kolaz = useRef(null);
   const { h, liste } = useMemo(() => rasporedi(fotke, n), [fotke, n]);
 
@@ -53,6 +56,7 @@ export default function Kolaz({ fotke }) {
 
   useIsoEffect(() => {
     setMirno(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    setSpreman(true);
     const postavi = () => setN(window.innerWidth < 700 ? 2 : 3);
     postavi();
     let t;
@@ -102,7 +106,7 @@ export default function Kolaz({ fotke }) {
 
   const sizes = n === 3 ? "(max-width: 699px) 50vw, 33vw" : "50vw";
   return (
-    <section className="kolaz" ref={kolaz} aria-label="Selected photographs" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
+    <section className={"kolaz" + (spreman ? " spreman" : "")} ref={kolaz} aria-label="Selected photographs" style={{ gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))` }}>
       {liste.map((l, k) => {
         const kartice = (kopija) => l.map((i) => (
           <button key={(kopija ? "b" : "a") + i} aria-label="Enlarge" tabIndex={kopija ? -1 : 0} aria-hidden={kopija || undefined}

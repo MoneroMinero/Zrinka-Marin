@@ -7,7 +7,10 @@ import { ADRESA, JsonLd, jsonLdPosao, jsonLdWeb, ogSlika } from "@/lib/seo";
 import { fotke } from "@/lib/fotke";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({ subsets: ["latin", "latin-ext"], weight: ["300", "400", "500", "600", "700"], style: ["normal", "italic"], variable: "--font-cormorant", display: "swap" });
+// Fontovi se poslužuju s vlastite domene (bez poziva prema Googleu).
+const cormorant = Cormorant_Garamond({ subsets: ["latin", "latin-ext"], weight: ["300", "400", "500", "600", "700"], style: ["normal"], variable: "--font-cormorant", display: "swap" });
+// kurziv se koristi samo za "Coming soon" na Contact stranici, pa se ne učitava unaprijed
+const cormorantKurziv = Cormorant_Garamond({ subsets: ["latin", "latin-ext"], weight: ["400"], style: ["italic"], variable: "--font-cormorant-kurziv", display: "swap", preload: false });
 const montserrat = Montserrat({ subsets: ["latin", "latin-ext"], weight: ["300", "400", "500", "600"], variable: "--font-montserrat", display: "swap" });
 
 const naslovna = fotke("svecanosti")[0] || fotke("portret")[0];
@@ -35,9 +38,11 @@ export const viewport = { width: "device-width", initialScale: 1, viewportFit: "
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="hr" className={`${cormorant.variable} ${montserrat.variable}`}>
+    <html lang="hr" className={`${cormorant.variable} ${cormorantKurziv.variable} ${montserrat.variable}`}>
       <body>
         <JsonLd podaci={[jsonLdPosao(), jsonLdWeb()]} />
+        {/* bez JavaScripta kolaž na naslovnici ostaje vidljiv */}
+        <noscript><style>{".kolaz{visibility:visible!important}"}</style></noscript>
         <LightboxProvider>
           <Zaglavlje />
           <main>{children}</main>
